@@ -12,7 +12,8 @@
             <h2>Controls</h2>
             <p><span onclick="addElement('square')" class="buttonIllustration" id="sbutton">S</span> Add a square</p>
             <p><span onclick="addElement('circle')" class="buttonIllustration" id="cbutton">C</span> Add a circle</p>
-            <p><span class="buttonIllustration" id="rbutton">R</span> Remove random element</p>
+            <p><span onclick="removeElement()" class="buttonIllustration" id="rbutton">R</span> Remove random element</p>
+            <!--La til onclick på span elementene, se kilde 6-->
             <h2>Number of elements</h2>
             <ul>
                 <li>Squares: <span id="squareCount">0</span></li>
@@ -38,34 +39,82 @@
         ]
 
         //TODO: Function to add an element of parameter type 'square' or 'circle':
-       
         function addElement(type) {
-            const x = Math.random() * canvas.width;
-            const y = Math.random() * canvas.height;
-            elements.push({ type, x, y });
-            updateElementCounts();
-
+            const y = Math.random() * canvas.height
+            const x = Math.random() * canvas.width
+            elements.push({type, y, x})
+            updateElementCounts()
         }
-        //Se kilde 1 i dokument
-        
+        //Lagde en funksjon for å legge til elementer med to variabler, y og x og brukt Math.random
+        // for å gi elementene en tilfeldig plassering i canvas. Lagt til push på arrayen "elements" med parameter type, y og x
+        // slik at de blir lagt til i arrayen. Se kilde 1 og 2 i dokument.
 
         //TODO: Function to remove random element:
+        function removeElement() {
+            if(elements.length > 0){
+                const randomIndex = Math.floor(Math.random() * elements.length)
+                elements.splice(randomIndex, 1)
+                updateElementCounts()
+            }
+        }
+        // Lagde en funksjon for å fjerne et tilfeldig element i fra arrayen. Hvis arrayen elements lengde er større enn 0 vil
+        // det bli fjernet et tilfeldig element. Se kilde 1 og 2 i dokument.
 
         //TODO: EventListeners to track user input:
-    
+        document.addEventListener("keydown", function(event){
+            if(event.key === "s"){
+               addElement("square")
+            } else if(event.key === "c"){
+                addElement("circle")
+            } else if(event.key === "r"){
+                removeElement()
+            }
+            updateElementCounts()
+        })
+        // La til en EventListener for å kunne hente informasjon fra brukeren. Bruker "keydown" og en if test for å sjekke om brukeren klikker
+        // på tastaturknapp "s" for å kjøre funksjonen addElement() med type "square", tastaturknapp "c" for å kjøre funskjonen addElement()
+        // med type "circle", eller tastaturknapp "r" for å kjøre funksjonen removeElement(). Se kilde 3 i dokument. 
 
         //TODO: Count the element types and total and print to interface
         
+        function updateElementCounts(){
+            const squareCount = elements.filter(element => element.type === "square").length
+            const circleCount = elements.filter(element => element.type === "circle").length
+            const totalCount = elements.length
 
+            document.getElementById("squareCount").innerHTML = squareCount
+            document.getElementById("circleCount").innerHTML = circleCount
+            document.getElementById("totalCount").innerHTML = totalCount
 
+        }
+        // Lagde en funksjon for opptelling av elementer i arrayen. Lagde tre variabler en for antall firkanter, sirkler og det totale antallet.
+        // Brukte filter for å få tak i tekststrengen "square" eller "circle" og .length for antall elementer. 
+        // I totalCount brukte jeg .length for å finne antall elementer i hele arrayen.
+        // Brukte document.getElementById for å koble variablene til HTML-elementene i ul-lista og skrive til brukergrensesnittet.
+        //Se kilde 5 i dokument.
         
         //Function to draw on canvas:
         function renderDrawings() {
-
             //Clear the rectangle
-            //ctx.clearRect(0, 0, canvas.width, canvas.height)
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
 
             //TODO: Draw the elements on canvas:
+
+            elements.filter(element => {
+                if(element.type === 'square') {
+                    ctx.fillRect(element.x - 25, element.y - 25, 8, 8)
+                    ctx.fillStyle = 'lightblue'
+                } else if(element.type === 'circle') {
+                    ctx.beginPath()
+                    ctx.arc(element.x, element.y, 13, 0, 2 * Math.PI)
+                    ctx.fillStyle = 'gold'
+                    ctx.fill()
+                    ctx.closePath()
+            }
+        }) 
+        // Brukte filter på elements arrayen og en if test for å finne de ulike tekststrengene som inneholder "square" eller "circle". 
+        // Hvis element.type = "square" skal det bli tegnet en firkant.
+        // Hvis element.type = "circle" skal det bli tegnet en sirkel. Se kilde 4 i dokument.
 
             //Testprint:
             console.log("Currently drawing frames...")
@@ -74,6 +123,7 @@
         }
         //Start drawing
         renderDrawings()
+        updateElementCounts()
     </script>
 </body>
 </html>
