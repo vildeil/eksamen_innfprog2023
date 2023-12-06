@@ -35,7 +35,7 @@
                     <input type="text" name="lastname" id="lastname" placeholder="Lastname" /></p>
                 <p>
                     <label for="position">Position</label>
-                    <select id="position" name="postition">
+                    <select id="position" name="position">
                        
                     </select>
                 </p>
@@ -48,21 +48,21 @@
                 <p>
                     <label for="email">Email address</label><input type="email" name="email" id="email" placeholder="you@email.com" /></select>
                 </p>
-                <button id="saveStaff">Save staff member</button>
+                <button id="saveStaff" onclick="newStaff()">Save staff member</button>
             </div>
             <div class="form">
                 <h2>Add position</h2>
                 <p>
                     <label for="newPosition">Position</label><input type="text" name="newPosition" id="newPosition" placeholder="Position" />
                 </p>
-                <button id="savePosition" onClick="newPosition()">Save new position</button>
+                <button id="savePosition" onclick="addNewPosition()">Save new position</button>
             </div>
             <div class="form">
                 <h2>Add department</h2>
                 <p>
                     <label for="newDepartment">Department</label><input type="text" name="newDepartment" id="newDepartment" placeholder="Department" />
                 </p>
-                <button id="saveDepartment">Save new department</button>
+                <button id="saveDepartment" onclick="addNewDepartment()">Save new department</button>
             </div>
         </section>
     </main>
@@ -87,7 +87,6 @@
         staffListCards.innerHTML = ""
         //Legger til staffListCards.innerHTML = "" for å tømme verdiene i HTML elementet. Se kilde 1 i dokument.
 
-        // Loop through the staff array and create HTML elements for each staff member
         staff.filter((member) => {
             const staffItem = document.createElement("article")
             staffItem.className = "membercard"
@@ -100,16 +99,120 @@
                 <p><a href="mailto:${member.email}"><img src="mailicon.png"> Send mail to ${member.firstname}</a></p>
             `
             //Legger til en loop (filter) på staff arrayen hvor den går igjennom alle verdiene i arrayen.
-            //I variabelen staffItem blir det laget en ny artikkel for hver member ved hjelp av document.createElement("article").
-            //
+            //I variabelen staffItem blir det laget en ny artikkel for hvert member ved hjelp av document.createElement("article").
+            //I staffItem.innerHTML = bruker jeg javascript til å generere ny HTML-kode, bruker className "membercard" for å skrive til riktig css.
             staffListCards.appendChild(staffItem)
             //staffListCards.appendChild(staffItem) legger til det nye article elementet (staffItem) som et barne-element til HTML-elementet
-            //som har id="staffListCards"
+            //som har id="staffListCards". Se kilde 1 og 2 i dokument.
         })
        
     }
         displayStaffList()
         //Kjører funksjonen displayStaffList.
+
+        function displayPositions() {
+            const position = document.getElementById('position')
+            //Lagde en funskjon displayPositions(), med en variabel position og kobler den til HTML-elementet som har id="position".
+            //Se kilde 4 i dokumentet.
+            position.innerHTML = ""
+            //La til position.innerHTML = "" for å tømme verdiene i HTML-elementet. Se kilde 4 i dokumentet.
+
+            positions.filter((option) => {
+                const positionOption = document.createElement("option")
+                positionOption.className = "form"
+                positionOption.innerHTML = option
+                position.appendChild(positionOption)
+            })
+           
+        //Legger til en loop (filter) på positions arrayen slik at den går igjennom alle verdiene i arrayen.
+        //I variabelen positionOption blir det laget en "option" for hver verdi i arrayen ved hjelp av document.createElement("option").
+        //I positionOption.className bruker jeg class.name = "form" for å skrive til riktig css.
+        //positionOption.innerHTML = option gir option elementene tekst i brukergrensesnittet.
+        //I position.appendChild(positionOption) blir det nye option elementet lagt til som et barne-element til HTML-elementet
+        //som har id="position". Se kilde 4 i dokumentet.
+
+        }
+        positions.sort()
+        //La til .sort() for å sortere arrayen alfabetisk.
+        displayPositions()
+        //Kjører funksjonen displayPositions()
+
+        function displayDepartments() {
+            const department = document.getElementById("department")
+            //Lagde en funksjon displayDepartments(), med en variavel departments og kobler den til HTML-elementet som har id="department".
+            department.innerHTML = ""
+            //La til department.innerHTML = "", for å tømme verdiene i HTML-elementet.
+
+            departments.filter((option) => {
+                const departmentOption = document.createElement("option")
+                departmentOption.className = "form"
+                departmentOption.innerHTML = option
+                department.appendChild(departmentOption)
+            })
+           
+            //La til en loop (filter) på departmens arrayen for at den skal gå igjennom alle verdiene i arrayen.
+            //I variabelen departmentOption blir det laget en "option" for hver verdi i arrayen ved bruk av document.createElement("option").
+            //I departmentOption.className bruker jeg class.name = "form" for å skrive til riktig css.
+            //departmentOption.innerHTML = option gir option elementene tekst i brukergrensesnittet. 
+            //I position.appendChild(departmentOption) blir det nye option elementet lagt til som et barne-element til HTML-elementet
+            //som har id="department"
+        } 
+        departments.sort()
+        //La til .sort() for å sortere arrayen alfabetisk.
+        displayDepartments()
+       
+        function newStaff() {
+        //Laget en funksjon newStaff. Se kilde 4 i dokument.
+            
+            const fnameInput = document.getElementById("firstname")
+            const lnameInput = document.getElementById("lastname")
+            const positionInput = document.getElementById("position")
+            const departmentInput = document.getElementById("department")
+            const emailInput = document.getElementById("email")
+            //Lagde nye variabeler hvor jeg bruker .getElementById for å hente verdiene fra input og select elementene.
+             
+            const newMember = {
+                firstname: fnameInput.value,
+                lastname: lnameInput.value,
+                position: positionInput.value,
+                department: departmentInput.value,
+                email: emailInput.value
+            }
+            //Lagde et nytt object newMember. Her samles alle verdiene fra input og selection elementene fra HTML-koden.  
+            staff.innerHTML = " "
+            //La til staff.innerHTML = "", for å tømme verdiene.
+
+            document.getElementById("firstname").value = ""
+            document.getElementById("lastname").value = ""
+            document.getElementById("position").value = ""
+            document.getElementById("department").value = ""
+            document.getElementById("email").value = ""
+            //Her blir verdiene til HTML-elementene med de forskjellige IDene skrevet ut til brukergrensesnittet.
+
+            staff.push(newMember)
+            //La til en push på staff for å pushe newMeber objektet inn i staff arrayen. 
+            displayStaffList()
+            //Kjører funksjonen displayStaffList.
+        }
+
+        function addNewPosition() {
+            const newPositionInput = document.getElementById("newPosition")
+            const newPosition = newPositionInput.value
+            document.getElementById("newPosition").value = ""
+            positions.push(newPosition)
+            displayPositions()
+        }
+
+        function addNewDepartment() {
+            const newDepartmentInput = document.getElementById("newDepartment")
+            const newDepartment = newDepartmentInput.value
+            document.getElementById("newDepartment").value = ""
+            departments.push(newDepartment)
+            displayDepartments()
+        }
+
+    
+
     </script>
 </body>
 </html>
