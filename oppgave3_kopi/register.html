@@ -77,6 +77,39 @@
 
         //Array of available departments
         const departments = ["Administration", "Human Resources", "Production", "Finances"]
+
+
+        function displayStaffList() {
+        const staffListCards = document.getElementById("staffList")
+        //Lagde en funksjon displayStaffList() med en variabel staffListCards og kobler den til div staffList med document.getElementById.
+        //Se kilde 1 i dokument.
+    
+        staffListCards.innerHTML = ""
+        //Legger til staffListCards.innerHTML = "" for å tømme verdiene i HTML elementet. Se kilde 1 i dokument.
+
+        // Loop through the staff array and create HTML elements for each staff member
+        staff.filter((member) => {
+            const staffItem = document.createElement("article")
+            staffItem.className = "membercard"
+            staffItem.innerHTML = `
+                <h3>${member.lastname}, ${member.firstname}</h3>
+                <p class="metainfo">
+                <img src="posicon.png" alt="position: "> ${member.position}
+                <img src="depicon.png" alt="department: "> ${member.department}
+                </p>
+                <p><a href="mailto:${member.email}"><img src="mailicon.png"> Send mail to ${member.firstname}</a></p>
+            `
+            //Legger til en loop (filter) på staff arrayen hvor den går igjennom alle verdiene i arrayen.
+            //I variabelen staffItem blir det laget en ny artikkel for hver member ved hjelp av document.createElement("article").
+            //
+            staffListCards.appendChild(staffItem)
+            //staffListCards.appendChild(staffItem) legger til det nye article elementet (staffItem) som et barne-element til HTML-elementet
+            //som har id="staffListCards"
+        })
+       
+    }
+        displayStaffList()
+        //Kjører funksjonen displayStaffList.
     </script>
 </body>
 </html>

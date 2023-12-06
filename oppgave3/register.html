@@ -77,6 +77,39 @@
 
         //Array of available departments
         const departments = ["Administration", "Human Resources", "Production", "Finances"]
+
+        choosePosition()
+        chooseDepartment()
+        //Kjører funksjonene choosePosition og chooseDepartment.
+      
+
+        function choosePosition() {
+            const positionDropdown = document.getElementById("position")
+        //Laget funksjonen choosePosition(). Med variabelen positionDropdown og kobler den til HTML-elementet
+        //som har id="position" med document.getElementById.
+            positions.forEach((position) => {
+                const option = document.createElement("option")
+                option.value = position
+                option.text = position
+                positionDropdown.appendChild(option)
+            })
+        }
+        //La til en .forEach på position arrayen slik at den kaller på hvert element i arrayen.
+        //Lagde en ny variabel som representerer et alternativ i dropdown listen.
+        //
+        //Se kilde 1 i dokument. 
+
+        function chooseDepartment() {
+            const departmentDropdown = document.getElementById("department")
+        //Laget funksjonen chooseDepartment(). Med variabelen departmentDropdown og kobler den til HTML-elementet
+        //som har id="department" med document.getElementById.
+            departments.forEach((department) => {
+                const option = document.createElement("option")
+                option.value = department
+                option.text = department
+                departmentDropdown.appendChild(option)
+            })
+        }//For å lage denne funskjonen har jeg brukt kode fra funksjonen jeg har lagd over.  
     </script>
 </body>
 </html>
